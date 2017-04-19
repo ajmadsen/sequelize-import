@@ -41,8 +41,8 @@ function load(PATH, sequelize, opts) {
   files.forEach(function (file) {
     if (fs.statSync(path.join(PATH, file)).isDirectory()) {
       models[file] = load(path.join(PATH, file), sequelize, opts);
-    } else {
-      file = file.split('.')[0];
+    } else if (file.endsWith('.js')) {
+      file = file.slice(0, -3);
       var model = sequelize.import(path.join(PATH, file))
       models[model.name] = model;
     }
